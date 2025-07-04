@@ -1,0 +1,52 @@
+- name: cpi
+  path: /releases/-
+  type: replace
+  value:
+    name: bosh-stackit-cpi
+    url: file:///Users/kiessk/workspace/bosh-stackit-cpi-release/dev.tgz
+    version: create
+- name: stemcell
+  path: /resource_pools/name=vms/stemcell?
+  type: replace
+  value:
+    sha1: f6f38d40e8bfee5686fd8c303466d3cfed9257d9
+    url: https://storage.googleapis.com/bosh-core-stemcells/1.844/bosh-stemcell-1.844-openstack-kvm-ubuntu-jammy-go_agent.tgz
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    availability_zone: ((az))
+    instance_type: ((bosh_vm_flavor))
+    root_disk_size: ((root_disk_size))
+- path: /networks/name=default/subnets/0/cloud_properties?
+  type: replace
+  value:
+    net_id: ((net_id))
+- path: /instance_groups/name=bosh/jobs/-
+  type: replace
+  value:
+    name: stackit_cpi
+    release: bosh-stackit-cpi
+- path: /instance_groups/name=bosh/properties/director/cpi_job?
+  type: replace
+  value: stackit_cpi
+- path: /cloud_provider/template?
+  type: replace
+  value:
+    name: stackit_cpi
+    release: bosh-stackit-cpi
+- path: /instance_groups/name=bosh/properties/stackit?
+  type: replace
+  value: &value
+    project_id:              ((stackit_project_id))
+    region:                  ((stackit_region))
+    auth_token:              ""
+    service_account_json:    ((stackit_service_account_json))
+    default_key_name:        ((default_key_name))
+    default_security_groups: ((default_security_groups))
+    stage_profile_json: ((stage_profile_json))
+    endpoint: ((endpoint))
+    human_readable_vm_names: true
+    org_id: ((stackit_org_id))
+- path: /cloud_provider/properties/stackit?
+  type: replace
+  value: *value

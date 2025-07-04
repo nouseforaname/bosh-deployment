@@ -1,0 +1,10 @@
+---
+- type: replace
+  path: /instance_groups/name=bosh/properties/stackit/connection_options?
+  value:
+    ca_cert: ((stackit_ca_cert))
+
+- type: replace
+  path: /cloud_provider/properties/stackit/connection_options?
+  value:
+    ca_cert: ((stackit_ca_cert))
