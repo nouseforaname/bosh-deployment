@@ -1,0 +1,6 @@
+- path: /resource_pools/name=vms/cloud_properties?
+  type: replace
+  value:
+    availability_zone: ((az))
+    instance_type: ((bosh_vm_flavor))
+    root_disk_size: ((root_disk_size))

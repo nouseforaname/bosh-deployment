@@ -16,7 +16,9 @@
   value:
     availability_zone: ((az))
     instance_type: ((bosh_vm_flavor))
-    root_disk_size: ((root_disk_size))
+    boot_from_volume: true
+    root_disk:
+      size: ((root_disk_size))
 - path: /networks/name=default/subnets/0/cloud_properties?
   type: replace
   value:
